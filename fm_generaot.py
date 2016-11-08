@@ -24,12 +24,35 @@ tree = ET.parse(xml_file)
 
 for elem in tree.iter(tag='table'):
     for sub_elem in elem.iter(tag='row'):
-        print sub_elem.items()
-        for item in ['datatype', 'default']:
-            for child in sub_elem.iter(tag='{0}'.format(item)):
-                print child.tag, child.text
+        print sub_elem.get('name')
+        for child in sub_elem.iter(tag='datatype'):
+            if 'INT' in child.text:
+                print "INTEGER"
+            else:
+                print child.text
 
+        for child in sub_elem.iter(tag='default'):
+            print "default value: {0}".format(child.text)
 
+class MakeModels(object):
+    '''
+    class generate python flask models file
+    '''
+
+    def __init__(self):
+        pass
+
+    def make_init_func(self):
+        pass
+
+    def add_elem(self):
+        pass
+
+    def dump(self):
+        pass
+
+    def make_repr_func(self):
+        pass
 
 
 
