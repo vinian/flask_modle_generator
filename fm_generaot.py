@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# Author: Nianhua,Wei(willian.wnh@gmail.com)
+# Author: Nianhua,Wei(veinian@163.com)
 
 '''
 read database schema from xml file, and dump it to sqlqlchemy models.py
@@ -34,39 +34,54 @@ for elem in tree.iter(tag='table'):
         for child in sub_elem.iter(tag='default'):
             print "default value: {0}".format(child.text)
 
-class MakeModels(object):
+class MakeTables(object):
     '''
-    class generate python flask models file
+    convert xml table tree to python dic
     '''
 
-    def __init__(self):
-        pass
+    # DATATYPE:
+    '''
+    {
+         table_name:  [
+             (row_name, row_type, ...),
+             (row_name, row_type, ...),
+             (row_name, row_type, ...),
+         ]
+    }
+
+    '''
+
+    def __init__(self, table_name):
+        self.table = []
+        self.tname = table_name
+
+    def add_row(self, row_name, row_type):
+        self.tname.push([row_name, row_type])
+
+    def make_table(self):
+        print "class {0}(db.Model):".format(self.tname.title())
 
     def make_init_func(self):
-        pass
+        # fetch the cloumn name and join them my ','
+        rows = ','.join(map(lambda x: x[0], self.table))
+        print "    def __init__(self, {0}):".format(rows)
+        for row in self.tname:
+            print "        self.{0} = {0}"
 
-    def add_elem(self):
-        pass
-
-    def dump(self):
-        pass
+    def make_row(self):
+        for row in self.table:
+            db_type = row[1]
+            db_name = row[0]
+            db_type_len = row[1] # if row has size
+            print "    {0} = db.Column({1}({2}))".format(db_name, db_type, db_type_len)
 
     def make_repr_func(self):
-        pass
+        print "    def __repr__():"
+        print "        pass"
 
-
-
-
-
-
-# TODO: parse tree data, convert it to python code
-
-
-
-
-
-
-
-
-
+    def dump(self):
+        self.make_table()
+        self.make_row()
+        self.make_init_func()
+        self.make_repr_func()
 
