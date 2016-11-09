@@ -37,17 +37,18 @@
 		<type label="SET" quote="" sql="SET" length="1"/>
 		<type label="Bit" quote="" sql="bit" length="0"/>
 	</group>
-</datatypes><table x="517" y="222" name="user">
-<row name="id" null="1" autoincrement="1">
+</datatypes>
+<table x  ="517" y="222" name="user">
+<row name ="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
-<row name="user_name" null="1" autoincrement="0">
+<row name ="user_name" null="1" autoincrement="0">
 <datatype>VARCHAR(80)</datatype>
 <default>NULL</default></row>
-<row name="email" null="1" autoincrement="0">
+<row name ="email" null="1" autoincrement="0">
 <datatype>VARCHAR(120)</datatype>
 <default>NULL</default></row>
-<key type="PRIMARY" name="">
+<key type ="PRIMARY" name="">
 <part>id</part>
 <part>user_name</part>
 <part>email</part>
