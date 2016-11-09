@@ -6,8 +6,8 @@
 usage:
 
 1. define your db schema in http://ondras.zarovi.cz/sql/demo/?keyword=default
-2. save scheme to db.xml file
-3. python fm_generaot.py db.xml
+2. save schema to db.xml file
+3. python fm_generator.py db.xml
 
 
 example:
