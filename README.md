@@ -4,7 +4,8 @@
 ### current status: not finished
 
 usage:
-1. define your db scheme in http://ondras.zarovi.cz/sql/demo/?keyword=default
+
+1. define your db schema in http://ondras.zarovi.cz/sql/demo/?keyword=default
 2. save scheme to db.xml file
 3. python fm_generaot.py db.xml
 
