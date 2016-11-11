@@ -10,6 +10,9 @@ import xml.etree.ElementTree as ET
 import sys
 import os
 
+# TODO: sqlalchemy datatype map to sql datatype
+
+# TODO: move this part to main()
 if len(sys.argv) == 2:
     xml_file = sys.argv[1]
 else:
@@ -24,6 +27,7 @@ tree = ET.parse(xml_file)
 
 for elem in tree.iter(tag='table'):
     for sub_elem in elem.iter(tag='row'):
+        # TODO generate table data
         print sub_elem.get('name')
         for child in sub_elem.iter(tag='datatype'):
             if 'INT' in child.text:
@@ -85,3 +89,5 @@ class MakeTables(object):
         self.make_init_func()
         self.make_repr_func()
 
+if __name__ == '__main__':
+    pass
