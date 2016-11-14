@@ -19,11 +19,8 @@ def fm_maker(xmlfile):
     for elem in tree.iter(tag='table'):
 #       print(elem.attrib['name'])
         new_table = MakeTables(elem.attrib['name'])
-        row_type = ''
-        row_default = ''
-        row_size = ''
+        (row_type, row_default, row_size) = ('', '', '')
         for sub_elem in elem.iter(tag='row'):
-            # TODO generate table data
 #            print(sub_elem.get('name'), end=" ")
             row_name = sub_elem.attrib['name']
             for child in sub_elem.iter(tag='datatype'):
