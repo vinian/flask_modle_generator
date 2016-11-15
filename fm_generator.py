@@ -10,8 +10,26 @@ from __future__ import print_function
 import xml.etree.ElementTree as ET
 import sys
 import os
+import re
 
 # TODO: sqlalchemy datatype map to sql datatype
+
+mysql_to_sqlalchemy =  {
+    'BOOL': 'Bollean',
+    'BOOLEAN': 'Boolean',
+    'SMALLINT': 'SmallInteger',
+    'INTEGER': 'Integer',
+    'BIGINT': 'BigInteger',
+    'ENUM': 'Enum',
+    'DECIMAL': 'Numeric',
+    'FLOAT': 'Float',
+    'DATE': 'Date',
+    'DATETIME': 'Datetime',
+    'TIMESTAMP': 'Datetime',
+    'VARCHAR': 'String',
+    'CHAR': 'String',
+    'TEXT': 'Text',
+}
 
 def fm_maker(xmlfile):
     tree = ET.parse(xmlfile)
@@ -64,16 +82,16 @@ class MakeTables(object):
         self.table = {}
         self.tname = table_name
 
-    def add_row(self, row_name, row_type, default, size, primary=False, auto_inc=False):
+    def add_row(self, row_name, row_type, default, primary=False, auto_inc=False):
         self.table[row_name] = {}
         self.table[row_name]['type'] = row_type
-        self.table[row_name]['size'] = size
         self.table[row_name]['default'] = default
         self.table[row_name]['primary'] = primary
         self.table[row_name]['auto_increment'] = auto_inc
 
     def make_table(self):
         print("class {0}(db.Model):".format(self.tname.title()))
+        print()
 
     def make_init_func(self):
         # fetch the cloumn name and join them my ','
@@ -82,13 +100,24 @@ class MakeTables(object):
         for row in self.table.keys():
             print("        self.{0} = {1}".format(row, row))
 
+        print()
+
     def make_row(self):
         for (row_name, items) in self.table.items():
-            print("    {0} = db.Column({1}({2}))".format(row_name, items['type'], items['size']))
+            s_type = re.match(r'^([a-zA-Z]+)', items['type'])
+            try:
+                p_type = items['type'].replace(s_type.group(), mysql_to_sqlalchemy[s_type.group()])
+            except Exception as err:
+                p_type = items['type']
+            finally:
+                print("    {0} = db.Column(db.{1})".format(row_name, p_type))
+
+        print()
 
     def make_repr_func(self):
         print("    def __repr__():")
         print("        pass")
+        print()
 
     def dump(self):
         self.make_table()

@@ -1,8 +1,6 @@
 #flask modle generator
 
 
-### current status: not finished
-
 usage:
 
 1. define your db schema in http://ondras.zarovi.cz/sql/demo/?keyword=default
